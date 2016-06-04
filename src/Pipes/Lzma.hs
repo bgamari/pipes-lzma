@@ -1,16 +1,31 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Pipes.Lzma ( compress, decompress ) where
+module Pipes.Lzma
+    ( -- * Compression
+      compress
+    , compressWith
+      -- * Decompression
+    , decompress
+    , decompressWith
+    ) where
 
 import Pipes
 import qualified Codec.Compression.Lzma as Lzma
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as BS
 
+-- | Decompress a 'ByteString'
 decompress :: forall m r. MonadIO m
            => Producer ByteString m r
            -> Producer ByteString m (Producer ByteString m r)
-decompress prod0 = liftIO (Lzma.decompressIO Lzma.defaultDecompressParams) >>= go prod0
+decompress = decompressWith Lzma.defaultDecompressParams
+
+-- | Decompress a 'ByteString'.
+decompressWith :: forall m r. MonadIO m
+               => Lzma.DecompressParams
+               -> Producer ByteString m r
+               -> Producer ByteString m (Producer ByteString m r)
+decompressWith params prod0 = liftIO (Lzma.decompressIO params) >>= go prod0
   where
     go :: Producer ByteString m r
        -> Lzma.DecompressStream IO
@@ -33,10 +48,17 @@ decompress prod0 = liftIO (Lzma.decompressIO Lzma.defaultDecompressParams) >>= g
         fail $ "Pipes.Lzma.decompress: Error "++show err
 
 -- | Compress a 'ByteString'
-compress :: forall x' x m r. MonadIO m
+compress :: forall m r. MonadIO m
          => Producer ByteString m r
          -> Producer ByteString m r
-compress prod0 = liftIO (Lzma.compressIO Lzma.defaultCompressParams) >>= go prod0
+compress = compressWith Lzma.defaultCompressParams
+
+-- | Compress a 'ByteString'
+compressWith :: forall m r. MonadIO m
+             => Lzma.CompressParams
+             -> Producer ByteString m r
+             -> Producer ByteString m r
+compressWith params prod0 = liftIO (Lzma.compressIO params) >>= go prod0
   where
     go :: Producer ByteString m r
        -> Lzma.CompressStream IO
