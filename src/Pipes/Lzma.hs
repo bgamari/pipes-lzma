@@ -38,11 +38,11 @@ compress prod0 = liftIO (Lzma.compressIO Lzma.defaultCompressParams) >>= go prod
     go :: Producer ByteString m r
        -> Lzma.CompressStream IO
        -> Producer ByteString m r
-    go prod (Lzma.CompressInputRequired flush more) = do
+    go prod (Lzma.CompressInputRequired _flush more) = do
         mx <- lift $ next prod
         case mx of
           Right (x, prod') -> liftIO (more x) >>= go prod'
-          Left r           -> liftIO flush >>= go (return r)
+          Left r           -> liftIO (more mempty) >>= go (return r)
     go prod (Lzma.CompressOutputAvailable output cont) = do
         yield output
         liftIO cont >>= go prod
