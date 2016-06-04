@@ -1,18 +1,38 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module Pipes.Lzma
-    ( -- * Compression
+    ( -- * Simple interface
       compress
-    , compressWith
-      -- * Decompression
     , decompress
+
+      -- * Compression
+    , compressWith
+      -- ** Parameters
+    , Lzma.defaultCompressParams
+    , Lzma.CompressParams
+    , Lzma.compressLevel
+    , Lzma.CompressionLevel(..)
+    , Lzma.compressLevelExtreme
+    , Lzma.IntegrityCheck(..)
+    , Lzma.compressIntegrityCheck
+
+      -- * Decompression
     , decompressWith
+      -- ** Parameters
+    , Lzma.defaultDecompressParams
+    , Lzma.DecompressParams
+    , Lzma.decompressTellNoCheck
+    , Lzma.decompressTellUnsupportedCheck
+    , Lzma.decompressTellAnyCheck
+    , Lzma.decompressConcatenated
+    , Lzma.decompressAutoDecoder
+    , Lzma.decompressMemLimit
     ) where
 
 import Pipes
-import qualified Codec.Compression.Lzma as Lzma
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as BS
+import qualified Codec.Compression.Lzma as Lzma
 
 -- | Decompress a 'ByteString'
 decompress :: forall m r. MonadIO m
