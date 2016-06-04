@@ -1,7 +1,9 @@
 name:                pipes-lzma
 version:             0.1.0.0
-synopsis:            LZMA compressors and decompressors for the pipes package
--- description:         
+synopsis:            LZMA compressors and decompressors for the Pipes package
+description:
+    This package provides a @pipes@ interface to the LZMA compression algorithm
+    used by the @.xz@ file format.
 homepage:            http://github.com/bgamari/pipes-lzma
 license:             BSD3
 license-file:        LICENSE
