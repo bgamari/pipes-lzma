@@ -34,13 +34,13 @@ import Data.ByteString (ByteString)
 import qualified Data.ByteString as BS
 import qualified Codec.Compression.Lzma as Lzma
 
--- | Decompress a 'ByteString'
+-- | Decompress a 'ByteString'.
 decompress :: forall m r. MonadIO m
            => Producer ByteString m r
            -> Producer ByteString m (Producer ByteString m r)
 decompress = decompressWith Lzma.defaultDecompressParams
 
--- | Decompress a 'ByteString'.
+-- | Decompress a 'ByteString' with a given set of 'Lzma.DecompressParams'.
 decompressWith :: forall m r. MonadIO m
                => Lzma.DecompressParams
                -> Producer ByteString m r
@@ -67,13 +67,13 @@ decompressWith params prod0 = liftIO (Lzma.decompressIO params) >>= go prod0
     go _prod (Lzma.DecompressStreamError err) =
         fail $ "Pipes.Lzma.decompress: Error "++show err
 
--- | Compress a 'ByteString'
+-- | Compress a 'ByteString'.
 compress :: forall m r. MonadIO m
          => Producer ByteString m r
          -> Producer ByteString m r
 compress = compressWith Lzma.defaultCompressParams
 
--- | Compress a 'ByteString'
+-- | Compress a 'ByteString' with a given set of 'Lzma.CompressParams'.
 compressWith :: forall m r. MonadIO m
              => Lzma.CompressParams
              -> Producer ByteString m r
