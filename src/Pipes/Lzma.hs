@@ -3,9 +3,7 @@
 module Pipes.Lzma ( compress, decompress ) where
 
 import Pipes
-import Control.Monad.IO.Class
 import qualified Codec.Compression.Lzma as Lzma
-import qualified Data.ByteString as BS
 import Data.ByteString (ByteString)
 
 decompress :: forall m r. MonadIO m
@@ -26,7 +24,7 @@ decompress prod0 = liftIO (Lzma.decompressIO Lzma.defaultDecompressParams) >>= g
         liftIO cont >>= go prod
     go prod (Lzma.DecompressStreamEnd leftover) =
         return (yield leftover >> prod)
-    go prod (Lzma.DecompressStreamError err) =
+    go _prod (Lzma.DecompressStreamError err) =
         fail $ "Pipes.Lzma.decompress: Error "++show err
 
 -- | Compress a 'ByteString'
@@ -46,5 +44,5 @@ compress prod0 = liftIO (Lzma.compressIO Lzma.defaultCompressParams) >>= go prod
     go prod (Lzma.CompressOutputAvailable output cont) = do
         yield output
         liftIO cont >>= go prod
-    go prod Lzma.CompressStreamEnd = do
+    go prod Lzma.CompressStreamEnd =
         prod
