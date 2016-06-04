@@ -15,7 +15,7 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     Pipes.Lzma
-  build-depends:       base >=4.9 && <4.10,
+  build-depends:       base >=4.6 && <4.10,
                        bytestring >=0.10 && <0.11,
                        pipes,
                        lzma
@@ -24,7 +24,7 @@ library
 
 executable pipes-lzma-tests
   main-is:             Test.hs
-  build-depends:       base >=4.9 && <4.10,
+  build-depends:       base >=4.6 && <4.10,
                        bytestring,
                        pipes,
                        pipes-bytestring,
@@ -34,7 +34,7 @@ executable pipes-lzma-tests
 
 executable pipes-lzma-unxz
   main-is:             Unxz.hs
-  build-depends:       base >=4.9 && <4.10,
+  build-depends:       base >=4.6 && <4.10,
                        pipes,
                        pipes-bytestring,
                        pipes-lzma
