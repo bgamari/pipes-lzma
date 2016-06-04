@@ -15,6 +15,10 @@ build-type:          Simple
 extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
 
+source-repository head
+  type:                git
+  location:            git://github.com/bgamari/pipes-lzma
+
 library
   exposed-modules:     Pipes.Lzma
   build-depends:       base >=4.6 && <4.10,
