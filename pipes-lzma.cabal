@@ -12,7 +12,6 @@ maintainer:          ben@smart-cactus.org
 copyright:           (c) 2016 Ben Gamari
 category:            Codec
 build-type:          Simple
-extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
 
 source-repository head
