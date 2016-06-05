@@ -1,4 +1,6 @@
 import Control.Monad (void)
+import Control.Applicative ((<$>))
+
 import Pipes
 import Pipes.Lzma
 import qualified Pipes.Prelude as PP
