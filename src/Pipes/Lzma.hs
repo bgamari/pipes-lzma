@@ -33,6 +33,8 @@ import Pipes
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as BS
 import qualified Codec.Compression.Lzma as Lzma
+import Data.Monoid (mempty)
+import Prelude
 
 -- | Decompress a 'ByteString'.
 decompress :: forall m r. MonadIO m
